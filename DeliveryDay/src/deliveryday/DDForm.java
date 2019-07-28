@@ -282,6 +282,9 @@ public class DDForm extends javax.swing.JFrame {
                                         
                    instance = getWorkingDayInstance(hHolidays,instance);
                    deliveryDate = instance.getTime();
+                   
+                Calendar islandInstance = getWorkingDayInstance(hHolidays,instance);
+                Date islandDate = islandInstance.getTime();
                 
                 boolean isArrivalDateHoliday = false;
                 String strArrivalDay = new String();
@@ -293,21 +296,23 @@ public class DDForm extends javax.swing.JFrame {
                     strArrivalDay = sdf.format(tempDeliveryDate);
                     
                     Calendar tempInstance = Calendar.getInstance();
-                    tempInstance.setTime(tempDeliveryDate);                
+                    tempInstance.setTime(tempDeliveryDate);
+                    islandInstance = tempInstance;
                
                     isArrivalDateHoliday = isDateHoliday(hHolidays,strArrivalDay);
                                                  
-                    if(isArrivalDateHoliday && tempInstance.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY)
-                          tempInstance = getWorkingDayInstance(hHolidays,tempInstance);                    
-                   
+                    if(isArrivalDateHoliday && tempInstance.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY){
+                          tempInstance = getWorkingDayInstance(hHolidays,tempInstance);    
+                          islandInstance = tempInstance;
+                    }
                        instance = tempInstance;
                        deliveryDate = instance.getTime();
+                       islandDate = islandInstance.getTime();
                     }
                     
                 }
                  
-                instance = getWorkingDayInstance(hHolidays,instance);
-                Date islandDate = instance.getTime();
+                
                 
                 List<String> map = new ArrayList<String>();                
                 map.add(deliveryDate.toString());
